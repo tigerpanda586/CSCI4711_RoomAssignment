@@ -6,6 +6,7 @@ namespace Entity
     public class RequestList
     {
         public Request[] requests;
+        
         public Request[] getReq()
         {
             return requests;
@@ -15,6 +16,7 @@ namespace Entity
     public class RoomList 
     {
         public Room[] rooms;
+
         public Room[] getRooms()
         {
             return rooms;
@@ -25,10 +27,12 @@ namespace Entity
     {
         private string _usn;
         private string _pwd;
+
         public string getUsn()
         {
             return _usn;
         }
+
         public string getPass()
         {
             return _pwd;
@@ -54,30 +58,37 @@ namespace Entity
             _date = date;
             _subject = subject;
         }
+
         public string getUsn()
         {
             return _usn;
         }
+
         public int getRoomNo()
         {
             return _roomNo;
         }
+
         public void setRoom(int roomNum)
         {
             _roomNo = roomNum;
         }
+
         public bool getStatus()
         {
             return _status;
         }
+
         public void setStatus(bool status)
         {
             _status = status;
         }
+
         public string getSubject()
         {
             return _subject;
         }
+
         public int getReqNo()
         {
             return _reqNo;
@@ -92,6 +103,7 @@ namespace Entity
         private int _capacity;
         private int _currOccupants;
         private string _subject;
+
         public Room(int roomNo, DateTime date, int capacity, int currOccupants, string subject)
         {
             _roomNo = roomNo;
@@ -100,26 +112,32 @@ namespace Entity
             _currOccupants = currOccupants;
             _subject = subject;
         }
+
         public int getRoomNo()
         {
             return _roomNo;
         }
+
         public DateTime getDate()
         {
             return _date;
         }
+
         public int getCapacity()
         {
             return _capacity;
         }
+
         public int getCurrOccupants()
         {
             return _currOccupants;
         }
+
         public void setCurrOccupants(int currOccupants)
         {
             _currOccupants = currOccupants;
         }
+
         public string getSubject()
         {
             return _subject;
