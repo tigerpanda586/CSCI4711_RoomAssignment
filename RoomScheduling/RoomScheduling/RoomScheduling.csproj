@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DC3AC035-0E83-434A-8CBD-0720774FCD83}</ProjectGuid>
+    <ProjectGuid>{1FE8304A-3186-4CF1-BC9A-1BCFE40441D1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RoomSchedulingReal</RootNamespace>
-    <AssemblyName>RoomSchedulingReal</AssemblyName>
+    <RootNamespace>RoomScheduling</RootNamespace>
+    <AssemblyName>RoomScheduling</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -74,12 +74,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SchedulingForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SchedulingForm.Designer.cs">
-      <DependentUpon>SchedulingForm.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

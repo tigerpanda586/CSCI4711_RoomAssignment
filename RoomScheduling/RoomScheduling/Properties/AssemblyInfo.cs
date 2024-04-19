@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RoomSchedulingReal")]
+[assembly: AssemblyTitle("RoomScheduling")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RoomSchedulingReal")]
+[assembly: AssemblyProduct("RoomScheduling")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("dc3ac035-0e83-434a-8cbd-0720774fcd83")]
+[assembly: Guid("1fe8304a-3186-4cf1-bc9a-1bcfe40441d1")]
 
 // Version information for an assembly consists of the following four values:
 //

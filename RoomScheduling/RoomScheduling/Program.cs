@@ -11,12 +11,12 @@ namespace Room_Scheduling_System
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
 
             DatabaseHelper.InitializeDatabase();
 
-           // Application.Run(new SchedulingForm);
+         //  Application.Run(new Form);
         }
     }
 }

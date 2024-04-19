@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RoomSchedulingReal.Properties
+namespace RoomScheduling.Properties
 {
 
 

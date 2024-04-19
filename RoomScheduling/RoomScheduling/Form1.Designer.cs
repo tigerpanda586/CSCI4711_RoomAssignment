@@ -1,4 +1,4 @@
-﻿namespace RoomSchedulingReal
+﻿namespace RoomScheduling
 {
     partial class Form1
     {
