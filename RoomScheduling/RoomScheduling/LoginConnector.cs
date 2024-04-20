@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoomScheduling
 {
-    public static class LoginConnector
+    public class LoginConnector
     {
         /* Whitelist
      *  Usr
@@ -35,7 +35,9 @@ namespace RoomScheduling
          * ToCharArray()        maybe use to check for blacklisted characters? prob better to use for each loop
          */
 
-        static void Main(string[] args)
+        //there can't be two "Main"s so I had to change the name.. maybe you want to chnage
+        //name to something else?
+        static void LoginConn(string[] args)
         {
             //              yes           no              no        no              no              yes
             string[] s = { "P@ssw0rd", "Passw0rd!%", "aaaaaaaaa", "!!!!!!!!!!", "!@#$snvjhk99", "1!swW9qqqq", "!1qQqqqqqqqqqqqqqqqq" };

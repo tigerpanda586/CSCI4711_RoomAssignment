@@ -1,23 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace RoomScheduling.Entity
 {
     public class RequestList
     {
-        public Request[] requests;
-        
-        public Request[] getReq()
+        public List<Request> requests;
+
+        public List<Request> getReq()
         {
             return requests;
         }
     }
 
-    public class RoomList 
+    public class RoomList
     {
-        public Room[] rooms;
+        public List<Room> rooms;
 
-        public Room[] getRooms()
+        public List<Room> getRooms()
         {
             return rooms;
         }
