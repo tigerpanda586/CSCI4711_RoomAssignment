@@ -13,10 +13,10 @@ namespace Room_Scheduling_System
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-
             DatabaseHelper.InitializeDatabase();
-
-         //  Application.Run(new Form);
+            //Application.Run(new Form);
         }
+
     }
+
 }
