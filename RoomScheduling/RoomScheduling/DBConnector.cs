@@ -89,10 +89,10 @@ namespace RoomScheduling.Controllers
                     INSERT INTO ROOM (roomNo, maxcap) VALUES (10, 5);
                     COMMIT;";
                     cmnd.CommandText = strSql;
-                    string usrname1 = "cus";
-                    string pwd1 = "1qaz";
-                    string usrname2 = "emp";
-                    string pwd2 = "2wsx";
+                    string usrname1 = "admin@email.edu";
+                    string pwd1 = "Password1";
+                    string usrname2 = "student@email.edu";
+                    string pwd2 = "Password2";
                     int x = usrname1.GetHashCode();
                     int y = pwd1.GetHashCode();
                     int x1 = usrname2.GetHashCode();
@@ -107,37 +107,37 @@ namespace RoomScheduling.Controllers
             }
         }
 
-        //public static Account GetUser(string usr, string pwd)
-        // {
-        //  using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
-        //{
-        //    conn.Open();
-        //  int x = usr.GetHashCode();
-        //int y = pwd.GetHashCode();
-        //string stm = @"SELECT[Id]
-        //      ,[usn]
-        //    ,[pass]
-        //  ,[role]
-        //FROM[ACCOUNT]
-        //WHERE[username] == ($name)
-        //AND[password] == ($pd);";
-        //using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
-        //{
-        //  cmnd.Parameters.AddWithValue("$name", x);
-        //cmnd.Parameters.AddWithValue("$pd", y);
-        //using (SQLiteDataReader rdr = cmnd.ExecuteReader())
-        //{
-        //  while (rdr.Read())
-        //{
-        //  Account acct = new Account(usr, pass, 0);
-        //return acct;
-        //}
-        //Account act = new Account(null, null, null);
-        //return act;
-        //}
-        //}
-        //}
-        //}
+        public static Account GetUser(string usr, string pwd)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
+        {
+            conn.Open();
+            int x = usr.GetHashCode();
+            int y = pwd.GetHashCode();
+            string stm = @"SELECT[usn]
+            ,[usn]
+            ,[pass]
+            ,[role]
+            FROM[ACCOUNT]
+            WHERE[usn] == ($name)
+            AND[pass] == ($pd);";
+            using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
+            {
+              cmnd.Parameters.AddWithValue("$name", x);
+              cmnd.Parameters.AddWithValue("$pd", y);
+              using (SQLiteDataReader rdr = cmnd.ExecuteReader())
+              {
+                while (rdr.Read())
+                {
+                    Account acct = new Account(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2));
+                    return acct;
+                }
+              Account act = new Account(null, null, null);
+              return act;
+            }
+        }
+    }
+}
 
         public static List<Request> getRequests()
         {
@@ -183,7 +183,7 @@ namespace RoomScheduling.Controllers
             return roomInfoList;
         }
 
-        public static void SaveLogin(string usr)
+        public static void SaveLogs(string usr)
         {
             using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
             {
@@ -204,12 +204,12 @@ namespace RoomScheduling.Controllers
                         }
                     }
                 }
-                stm = @"INSERT INTO LOGIN VALUES($id, $time);";
+                stm = @"INSERT INTO LOGS VALUES($usn, $time);";
                 using (SQLiteCommand cmnd = new SQLiteCommand())
                 {
                     cmnd.Connection = conn;
                     cmnd.CommandText = stm;
-                    cmnd.Parameters.AddWithValue("$id", id);
+                    cmnd.Parameters.AddWithValue("$usn", id);
                     cmnd.Parameters.AddWithValue("$time", t);
                     cmnd.ExecuteNonQuery();
                 }
