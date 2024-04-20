@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Room_Scheduling_System
+namespace RoomScheduling.Controllers
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace Room_Scheduling_System
         {
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
-            DatabaseHelper.InitializeDatabase();
+            DBConnector.InitializeDB();
             //Application.Run(new Form);
         }
 
