@@ -87,6 +87,15 @@ namespace RoomScheduling.Controllers
                     INSERT INTO ROOM (roomNo, maxcap) VALUES (8, 10);
                     INSERT INTO ROOM (roomNo, maxcap) VALUES (9, 5);
                     INSERT INTO ROOM (roomNo, maxcap) VALUES (10, 5);
+                    INSERT INTO SUBJECT(subject) VALUES ('Chemistry');
+                    INSERT INTO SUBJECT(subject) VALUES ('Physics');
+                    INSERT INTO SUBJECT(subject) VALUES ('Math');
+                    INSERT INTO SUBJECT(subject) VALUES ('Spanish');
+                    INSERT INTO SUBJECT(subject) VALUES ('English');
+                    INSERT INTO SUBJECT(subject) VALUES ('Programming');
+                    INSERT INTO SUBJECT(subject) VALUES ('Biology');
+                    INSERT INTO SUBJECT(subject) VALUES ('Accounting');
+                    INSERT INTO SUBJECT(subject) VALUES ('Finance');
                     COMMIT;";
                     cmnd.CommandText = strSql;
                     string usrname1 = "admin@email.edu";

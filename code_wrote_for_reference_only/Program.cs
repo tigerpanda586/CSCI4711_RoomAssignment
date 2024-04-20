@@ -1,0 +1,95 @@
+﻿
+using System.Reflection.Metadata;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    /* Whitelist
+     *  Usr
+     *      Email should end with @university.edu 
+     *      Email address should be 3 - 15 characters long (before @) 
+     *      Email address can only contain letters  
+     *  Pwd
+     *      Can be 8 – 20 characters  
+     *      Can contain certain characters: !@#$%
+     *      Can contain letters and numbers
+     * 
+     * Blacklist
+     *  Usr
+     *      
+     *  Pwd
+     *      Cannot contain characters except those specified in whitelist
+     */
+    
+    
+    /* String methods to use:
+     * EndsWith(String)     use to check for email ending
+     * GetHashCode()        use for hashing?
+     * IndexOf(Char)        for blacklist
+     * Contains(char)       for blacklist
+     * ToCharArray()        maybe use to check for blacklisted characters? prob better to use for each loop
+     */
+
+    static void Main(string[] args)
+    {
+        //              yes           no              no        no              no              yes
+        string[] s = { "P@ssw0rd", "Passw0rd!%", "aaaaaaaaa", "!!!!!!!!!!", "!@#$snvjhk99", "1!swW9qqqq", "!1qQqqqqqqqqqqqqqqqq" };
+        
+        string pat1 = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])(?!.*[^A-Za-z0-9!@#$]).{8,20}$"; // new pattern. Only difference is the restriction on 
+        //string pat2 = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$]).{8,20}$"; // Same pattern from Ppt
+        foreach(string str in s)
+        {
+            Console.WriteLine(Regex.IsMatch(str, pat1));
+
+        }
+    }
+
+    public bool validateInput(string usr, string pwd) // returns true if valid
+    {
+        string emailEnd;
+        string emailStart;
+
+        if (string.IsNullOrEmpty(usr) || string.IsNullOrEmpty(pwd) || !usr.Contains('@')) // Usr and pwd should not be empty/null. Usr must contain @ somewhere
+            return false; 
+
+        usr = usr.Trim().ToLower(); //Can trim now that they are not null
+        pwd = pwd.Trim();
+        string[] str = usr.Split('@'); // splitting the email at @
+        emailStart = str[0];
+        emailEnd = str[1];
+
+
+        // Checking username
+        if(!usr.EndsWith("@university.edu") || emailEnd != "university.edu") // Email should end with @university.edu. this also covers if the user types @@. probably unnecessary
+            return false;
+
+        if (usr.Length > 30 || usr.Length < 18) // Email length should be 18 - 30 long
+            return false;
+
+        foreach(char c in emailStart) // 1st half of email should be only letters
+        {
+            if ((int)c < 97 || (int)c > 122) // checking ASCII values
+                return false;
+        }
+
+
+        //Checking password
+        char[] blacklist = { '=', '*', '\\', ' ', ',', '.', ';', '(', ')', '\'', '\"' }; // Some significant characters in sql
+        
+        // Regex pattern. This requires the password to have at least 1 uppercase, 1 lower case, 1 number, 1 special character, no other characters, and 8 - 20 long
+        // This is the same regex pattern from the Ppt slides, except for the added restriction:  (?!.*[^A-Za-z0-9!@#$])
+        string pattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])(?!.*[^A-Za-z0-9!@#$]).{8,20}$"; 
+
+        foreach(char b in blacklist) // pwd cannot contain blacklist. This is likely unecessary because the regex pattern blocks all characters except letters, numbers, and !@#$
+        {
+            if(pwd.Contains(b))
+                return false;
+        }
+
+        if(!Regex.IsMatch(pwd, pattern)) // If the required pattern is not found, return false
+            return false;
+
+
+        return true; // return true if no problems were found above
+    }
+}

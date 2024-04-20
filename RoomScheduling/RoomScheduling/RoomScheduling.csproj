@@ -66,8 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code.cs" />
-    <Compile Include="DatabaseHelper.cs" />
-    <Compile Include="DBConnectorMe.cs" />
+    <Compile Include="DBConnector.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

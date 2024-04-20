@@ -29,7 +29,7 @@ namespace RoomScheduling.Entity
         private string _pwd;
         private string _role;
 
-        Account(string usn, string pass, string role)
+        public Account(string usn, string pass, string role)
         {
             usn = _usn;
             pass = _pwd;
