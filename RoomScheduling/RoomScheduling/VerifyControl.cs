@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RoomScheduling
 {
-    public class LoginConnector
+    public class VerifyControl
     {
         /* Whitelist
      *  Usr
