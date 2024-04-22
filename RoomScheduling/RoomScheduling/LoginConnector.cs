@@ -9,7 +9,7 @@ namespace RoomScheduling
 {
     public class LoginConnector
     {
-        /* Whitelist
+    /* Whitelist
      *  Usr
      *      Email should end with @university.edu 
      *      Email address should be 3 - 15 characters long (before @) 
@@ -25,31 +25,6 @@ namespace RoomScheduling
      *  Pwd
      *      Cannot contain characters except those specified in whitelist
      */
-
-
-        /* String methods to use:
-         * EndsWith(String)     use to check for email ending
-         * GetHashCode()        use for hashing?
-         * IndexOf(Char)        for blacklist
-         * Contains(char)       for blacklist
-         * ToCharArray()        maybe use to check for blacklisted characters? prob better to use for each loop
-         */
-
-        //there can't be two "Main"s so I had to change the name.. maybe you want to chnage
-        //name to something else?
-        static void LoginConn(string[] args)
-        {
-            //              yes           no              no        no              no              yes
-            string[] s = { "P@ssw0rd", "Passw0rd!%", "aaaaaaaaa", "!!!!!!!!!!", "!@#$snvjhk99", "1!swW9qqqq", "!1qQqqqqqqqqqqqqqqqq" };
-
-            string pat1 = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])(?!.*[^A-Za-z0-9!@#$]).{8,20}$"; // new pattern. Only difference is the restriction on 
-                                                                                                          //string pat2 = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$]).{8,20}$"; // Same pattern from Ppt
-            foreach (string str in s)
-            {
-                Console.WriteLine(Regex.IsMatch(str, pat1));
-
-            }
-        }
 
         public bool validateInput(string usr, string pwd) // returns true if valid
         {
