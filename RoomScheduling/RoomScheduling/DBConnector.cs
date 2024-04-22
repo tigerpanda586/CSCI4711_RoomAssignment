@@ -187,7 +187,7 @@ namespace RoomScheduling.Controllers
     }
 }
 
-        public static List<Request> getRequests()
+        public static List<Request> getRequests(string usr)
         {
             List<Request> requestInfoList = new List<Request>();
             using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
@@ -196,12 +196,17 @@ namespace RoomScheduling.Controllers
                 {
                     conn.Open();
                     cmnd.Connection = conn;
-                    cmnd.CommandText = "SELECT * FROM REQUEST;";
-                    using (SQLiteDataReader rdr = cmnd.ExecuteReader())
+                    int x = usr.GetHashCode();
+                    cmnd.CommandText = "SELECT * FROM REQUEST WHERE[usn] == ($name);";
+                    using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
                     {
-                        while (rdr.Read())
+                        cmnd.Parameters.AddWithValue("$name", x);
+                        using (SQLiteDataReader rdr = cmnd.ExecuteReader())
                         {
-                            requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(1), rdr.GetInt32(2), rdr.GetBoolean(3), rdr.GetDateTime(4), rdr.GetString(5)));
+                            while (rdr.Read())
+                            {
+                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(1), rdr.GetInt32(2), rdr.GetBoolean(3), rdr.GetDateTime(4), rdr.GetString(5)));
+                            }
                         }
                     }
                 }
