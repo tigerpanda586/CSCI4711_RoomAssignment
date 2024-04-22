@@ -159,24 +159,20 @@ namespace RoomScheduling.Controllers
             }
         }
 
-        public static Account GetUser(string usr, string pwd)
+        public static Account GetUser(string usr)
         {
             using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
         {
             conn.Open();
             int x = usr.GetHashCode();
-            int y = pwd.GetHashCode();
             string stm = @"SELECT[usn]
-            ,[usn]
             ,[pass]
             ,[role]
             FROM[ACCOUNT]
-            WHERE[usn] == ($name)
-            AND[pass] == ($pd);";
+            WHERE[usn] == ($name);";
             using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
             {
               cmnd.Parameters.AddWithValue("$name", x);
-              cmnd.Parameters.AddWithValue("$pd", y);
               using (SQLiteDataReader rdr = cmnd.ExecuteReader())
               {
                 while (rdr.Read())
