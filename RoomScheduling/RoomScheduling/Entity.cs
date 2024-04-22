@@ -47,6 +47,10 @@ namespace RoomScheduling.Entity
             return _pwd;
         }
 
+        public string getRole()
+        {
+            return _role;
+        }
 
     }
 
