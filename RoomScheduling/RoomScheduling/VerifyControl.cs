@@ -5,29 +5,76 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RoomScheduling
+
+namespace RoomScheduling.Controllers
 {
-    public class VerifyControl
+    class VerifyControl
     {
-    /* Whitelist
-     *  Usr
-     *      Email should end with @university.edu 
-     *      Email address should be 3 - 15 characters long (before @) 
-     *      Email address can only contain letters  
-     *  Pwd
-     *      Can be 8 – 20 characters  
-     *      Can contain certain characters: !@#$%
-     *      Can contain letters and numbers
-     * 
-     * Blacklist
-     *  Usr
-     *      
-     *  Pwd
-     *      Cannot contain characters except those specified in whitelist
-     */
+        
+        public bool login(string usn, string pwd)
+        {
+            bool inputValidate = validateInput(usn, pwd);
+            if(inputValidate)
+            {
+                Account acc = DBConnector.GetUser(usn);
+                if(acc != null)
+                {
+                    bool validPwd = authenticate(acc, pwd);
+                    if(validPwd)
+                    {
+                        DBConnector.SaveLogs(usn);
+                        List<Request> request = DBConnector.getRequests(usn);
+                        string role = acc.getRole(); // ******** .getRole() is giving an error. Needs to be fixed **********
+                        /*
+                        if(role == "admin")
+                        {
+                            AdminMenu.open(usn, request);
+                        }
+                        else if(role == "student")
+                        {
+                            StudentMenu.open(usn, request);
+                        } */
+                        return true;
+                    }
+                }
+
+            }
+            return false;
+        }
+
+        public bool authenticate(Account acc, string pwd)
+        {
+            int x = pwd.GetHashCode();
+            string hashedPwd = x.ToString();
+            string accPwd = acc.getPass();
+            if (hashedPwd == accPwd)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
 
         public bool validateInput(string usr, string pwd) // returns true if valid
         {
+
+            /* Whitelist
+             *  Usr
+             *      Email should end with @university.edu 
+             *      Email address should be 3 - 15 characters long (before @) 
+             *      Email address can only contain letters  
+             *  Pwd
+             *      Can be 8 – 20 characters  
+             *      Can contain certain characters: !@#$%
+             *      Can contain letters and numbers
+             * 
+             * Blacklist
+             *  Usr
+             *      
+             *  Pwd
+             *      Cannot contain characters except those specified in whitelist
+             */
+
             string emailEnd;
             string emailStart;
 
