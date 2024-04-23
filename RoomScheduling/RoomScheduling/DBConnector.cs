@@ -237,6 +237,7 @@ namespace RoomScheduling.Controllers
             return roomInfoList;
         }
 
+        //This variable will increment logNo by one every time
         private static int logcnt;
         public static void SaveLogs(string usr, string type)
         {
