@@ -32,9 +32,9 @@ namespace RoomScheduling.Entity
 
         public Account(string usn, string pass, string role)
         {
-            usn = _usn;
-            pass = _pwd;
-            role = _role;
+            _usn = usn;
+            _pwd = pass;
+            _role = role;
         }
 
         public string getUsn()

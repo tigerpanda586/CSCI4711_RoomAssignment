@@ -24,7 +24,7 @@ namespace RoomScheduling.Controllers
                     bool validPwd = authenticate(acc, pwd);
                     if(validPwd)
                     {
-                        DBConnector.SaveLogs(usn);
+                        DBConnector.SaveLogs(usn, "login");
                         List<Request> request = DBConnector.getRequests(usn);
                         string role = acc.getRole(); // ******** .getRole() is giving an error. Needs to be fixed **********
                         /*

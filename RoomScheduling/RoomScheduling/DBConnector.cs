@@ -4,6 +4,7 @@ using RoomScheduling.Entity;
 //using RoomScheduling.Boundary;
 using System.Data.SQLite;
 using System.Security.Principal;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RoomScheduling.Controllers
 {
@@ -49,7 +50,7 @@ namespace RoomScheduling.Controllers
                     cmnd.CommandText = table;
                     cmnd.ExecuteNonQuery();
                     table = @"CREATE TABLE [LOGS] (
-                      [logNo] TEXT PRIMARY KEY
+                      [logNo] INTEGER PRIMARY KEY AUTOINCREMENT
                     , [type] TEXT NOT NULL
                     , [time] DATETIME NOT NULL
                     , [usn] TEXT NOT NULL
@@ -105,22 +106,22 @@ namespace RoomScheduling.Controllers
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr8, $hashpwd8, 'admin');
                     COMMIT;";
                     cmnd.CommandText = strSql;
-                    string usrname1 = "admin@email.edu";
-                    string pwd1 = "Password1";
-                    string usrname2 = "student@email.edu";
-                    string pwd2 = "Password2";
-                    string usr3 = "bryangarris@email.edu";
-                    string usr4 = "emmaboster@email.edu";
-                    string usr5 = "mikehranica@email.edu";
-                    string usr6 = "milkvosbein@email.edu";
-                    string usr7 = "loverukk@email.edu";
-                    string usr8 = "brightwin@email.edu";
-                    string pwd3 = "Hxc99";
-                    string pwd4 = "maddymor421";
-                    string pwd5 = "bigchair";
-                    string pwd6 = "blue5blankets";
-                    string pwd7 = "tophats";
-                    string pwd8 = "50secrets";
+                    string usrname1 = "admin@university.edu";
+                    string pwd1 = "Password1!";
+                    string usrname2 = "student@university.edu";
+                    string pwd2 = "Password2!";
+                    string usr3 = "bryangarris@university.edu";
+                    string usr4 = "emmaboster@university.edu";
+                    string usr5 = "mikehranica@university.edu";
+                    string usr6 = "milkvosbein@university.edu";
+                    string usr7 = "loverukk@university.edu";
+                    string usr8 = "brightwin@university.edu";
+                    string pwd3 = "H@rdcore99";
+                    string pwd4 = "M@ddymor421";
+                    string pwd5 = "Bigchair2!";
+                    string pwd6 = "Blue5bl@nkets";
+                    string pwd7 = "Tophats89!";
+                    string pwd8 = "50$ecrets";
                     int x = usrname1.GetHashCode();
                     int y = pwd1.GetHashCode();
                     int x1 = usrname2.GetHashCode();
@@ -177,8 +178,8 @@ namespace RoomScheduling.Controllers
               {
                 while (rdr.Read())
                 {
-                    Account acct = new Account(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2));
-                    return acct;
+                            Account acct = new Account(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2));
+                            return acct;
                 }
               Account act = new Account(null, null, null);
               return act;
@@ -198,7 +199,7 @@ namespace RoomScheduling.Controllers
                     cmnd.Connection = conn;
                     int x = usr.GetHashCode();
                     cmnd.CommandText = "SELECT * FROM REQUEST WHERE[usn] == ($name);";
-                    using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
+                    using (SQLiteCommand cmnd2 = new SQLiteCommand(conn))
                     {
                         cmnd.Parameters.AddWithValue("$name", x);
                         using (SQLiteDataReader rdr = cmnd.ExecuteReader())
@@ -236,14 +237,15 @@ namespace RoomScheduling.Controllers
             return roomInfoList;
         }
 
-        public static void SaveLogs(string usr)
+        private static int logcnt;
+        public static void SaveLogs(string usr, string type)
         {
             using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
             {
                 conn.Open();
                 DateTime time = DateTime.Now;
                 string t = time.ToString("s");
-                int id = 0;
+                string id = "0";
                 int hash = usr.GetHashCode();
                 string stm = "SELECT [usn] FROM ACCOUNT WHERE usn = ($name);";
                 using (SQLiteCommand cmnd = new SQLiteCommand(stm, conn))
@@ -253,17 +255,25 @@ namespace RoomScheduling.Controllers
                     {
                         while (rdr.Read())
                         {
-                            id = rdr.GetInt32(0);
+                            id = rdr.GetString(0);
                         }
                     }
                 }
-                stm = @"INSERT INTO LOGS VALUES($usn, $time);";
+                stm = @"INSERT INTO LOGS VALUES($logNo, $type, $time, $usn);";
                 using (SQLiteCommand cmnd = new SQLiteCommand())
                 {
+                    //[logNo] INTEGER PRIMARY KEY
+                    //, [type] TEXT NOT NULL
+                    //, [time] DATETIME NOT NULL
+                    //, [usn] TEXT NOT NULL
+                    //, FOREIGN KEY([usn]) REFERENCES[ACCOUNT]([usn])
                     cmnd.Connection = conn;
                     cmnd.CommandText = stm;
                     cmnd.Parameters.AddWithValue("$usn", id);
                     cmnd.Parameters.AddWithValue("$time", t);
+                    cmnd.Parameters.AddWithValue("$type", type);
+                    logcnt++;
+                    cmnd.Parameters.AddWithValue("$logNo", logcnt);
                     cmnd.ExecuteNonQuery();
                 }
             }
