@@ -107,6 +107,14 @@ namespace RoomScheduling.Entity
             return _reqNo;
         }
 
+        public DateTime getDate()
+        {
+            return _date;
+        }
+        public void setDate(DateTime date)
+        {
+            _date = date;
+        }
     }
 
     public class Room

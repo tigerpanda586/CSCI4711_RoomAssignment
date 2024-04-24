@@ -41,7 +41,7 @@ namespace RoomScheduling.Controllers
                     , [date] DATETIME NOT NULL
                     , [usn] TEXT NOT NULL
                     , [roomNo] INTEGER
-                    , [subject] TEXT
+                    , [subject] TEXT NOT NULL
                     , FOREIGN KEY([usn]) REFERENCES ACCOUNT([usn])
                     , FOREIGN KEY([roomNo]) REFERENCES ROOM([roomNo])
                     , FOREIGN KEY([subject]) REFERENCES SUBJECT([subject])
@@ -105,6 +105,7 @@ namespace RoomScheduling.Controllers
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr6, $hashpwd6, 'admin');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr7, $hashpwd7, 'admin');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr8, $hashpwd8, 'admin');
+                    INSERT INTO REQUEST (usn, reqNo, date, status, subject) VALUES ($hashusr3, 1, '2024-04-26 09:20:00' ,'pending', 'Chemistry');
                     COMMIT;";
                     cmnd.CommandText = strSql;
                     string usrname1 = "admin@university.edu";
@@ -211,12 +212,62 @@ namespace RoomScheduling.Controllers
                                 //so i assign default values when that's the case
                                 int roomNo = default;
                                 string sub = default;
-                                try { roomNo = rdr.GetInt32(2); }
+                                try { roomNo = rdr.GetInt32(4); }
                                 catch (InvalidCastException) { roomNo = default; }
                                 try { sub = rdr.GetString(5); }
                                 catch (InvalidCastException) { sub = default; }
 
-                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(1), roomNo, rdr.GetBoolean(3), rdr.GetDateTime(4), sub));
+                                //this converts to bool
+                                bool bol = default;
+                                if (rdr.GetString(1) == "assigned")
+                                    bol = true;
+                                else
+                                    bol = false;
+
+
+                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(3), roomNo, bol, rdr.GetDateTime(2), sub));
+                            }
+                        }
+                    }
+                }
+            }
+            return requestInfoList;
+        }
+
+        public static List<Request> getAllRequests()
+        {
+            List<Request> requestInfoList = new List<Request>();
+            using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
+            {
+                using (SQLiteCommand cmnd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmnd.Connection = conn;
+                    cmnd.CommandText = "SELECT * FROM REQUEST WHERE[status] == 'pending';";
+                    using (SQLiteCommand cmnd2 = new SQLiteCommand(conn))
+                    {
+                        using (SQLiteDataReader rdr = cmnd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                //roomNo and subject can be null, but this causes errors when making objects
+                                //so i assign default values when that's the case
+                                int roomNo = default;
+                                string sub = default;
+                                try { roomNo = rdr.GetInt32(4); }
+                                catch (InvalidCastException) { roomNo = default; }
+                                try { sub = rdr.GetString(5); }
+                                catch (InvalidCastException) { sub = default; }
+
+                                //this converts to bool
+                                bool bol = default;
+                                if (rdr.GetString(1) == "assigned")
+                                    bol = true;
+                                else
+                                    bol = false;
+
+
+                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(3), roomNo, bol, rdr.GetDateTime(2), sub));
                             }
                         }
                     }
