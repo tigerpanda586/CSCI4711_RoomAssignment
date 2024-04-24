@@ -17,3 +17,4 @@ C:\Users\TreeP\OneDrive\Documents\GitHub\CSCI4711_RoomAssignment\RoomScheduling\
 C:\Users\TreeP\OneDrive\Documents\GitHub\CSCI4711_RoomAssignment\RoomScheduling\RoomScheduling\obj\Release\RoomScheduling.csproj.CopyComplete
 C:\Users\TreeP\OneDrive\Documents\GitHub\CSCI4711_RoomAssignment\RoomScheduling\RoomScheduling\obj\Release\RoomScheduling.exe
 C:\Users\TreeP\OneDrive\Documents\GitHub\CSCI4711_RoomAssignment\RoomScheduling\RoomScheduling\obj\Release\RoomScheduling.pdb
+C:\Users\TreeP\OneDrive\Documents\GitHub\CSCI4711_RoomAssignment\RoomScheduling\RoomScheduling\obj\Release\RoomScheduling.LoginForm.resources

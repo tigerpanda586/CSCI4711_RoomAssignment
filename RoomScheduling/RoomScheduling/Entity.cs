@@ -114,15 +114,15 @@ namespace RoomScheduling.Entity
         private int _roomNo;
         private DateTime _date;
         private int _capacity;
-        private int _currOccupants;
+        private int _currOccupancy;
         private string _subject;
 
-        public Room(int roomNo, DateTime date, int capacity, int currOccupants, string subject)
+        public Room(int roomNo, DateTime date, int capacity, int currOccupancy, string subject)
         {
             _roomNo = roomNo;
             _date = date;
             _capacity = capacity;
-            _currOccupants = currOccupants;
+            _currOccupancy = currOccupancy;
             _subject = subject;
         }
 
@@ -141,14 +141,14 @@ namespace RoomScheduling.Entity
             return _capacity;
         }
 
-        public int getCurrOccupants()
+        public int getCurrOccupancy()
         {
-            return _currOccupants;
+            return _currOccupancy;
         }
 
-        public void setCurrOccupants(int currOccupants)
+        public void setCurrOccupancy(int currOccupants)
         {
-            _currOccupants = currOccupants;
+            _currOccupancy = currOccupants;
         }
 
         public string getSubject()

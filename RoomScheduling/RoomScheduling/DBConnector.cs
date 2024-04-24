@@ -79,16 +79,16 @@ namespace RoomScheduling.Controllers
                     strSql = @"BEGIN TRANSACTION; 
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr1, $hashpwd1, 'admin');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr2, $hashpwd2, 'student');
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (1, 20);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (2, 20);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (3, 20);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (4, 15);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (5, 15);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (6, 15);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (7, 10);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (8, 10);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (9, 5);
-                    INSERT INTO ROOM (roomNo, maxcap) VALUES (10, 5);
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (1, 20, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (2, 20, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (3, 20, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (4, 15, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (5, 15, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (6, 15, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (7, 10, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (8, 10, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (9, 5, 'NONE');
+                    INSERT INTO ROOM (roomNo, maxcap, subject) VALUES (10, 5, 'NONE');
                     INSERT INTO SUBJECT(subject) VALUES ('Chemistry');
                     INSERT INTO SUBJECT(subject) VALUES ('Physics');
                     INSERT INTO SUBJECT(subject) VALUES ('Math');
@@ -98,6 +98,7 @@ namespace RoomScheduling.Controllers
                     INSERT INTO SUBJECT(subject) VALUES ('Biology');
                     INSERT INTO SUBJECT(subject) VALUES ('Accounting');
                     INSERT INTO SUBJECT(subject) VALUES ('Finance');
+                    INSERT INTO SUBJECT(subject) VALUES ('NONE');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr3, $hashpwd3, 'student');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr4, $hashpwd4, 'student');
                     INSERT INTO ACCOUNT (usn, pass, role) VALUES ($hashusr5, $hashpwd5, 'student');
@@ -206,7 +207,16 @@ namespace RoomScheduling.Controllers
                         {
                             while (rdr.Read())
                             {
-                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(1), rdr.GetInt32(2), rdr.GetBoolean(3), rdr.GetDateTime(4), rdr.GetString(5)));
+                                //roomNo and subject can be null, but this causes errors when making objects
+                                //so i assign default values when that's the case
+                                int roomNo = default;
+                                string sub = default;
+                                try { roomNo = rdr.GetInt32(2); }
+                                catch (InvalidCastException) { roomNo = default; }
+                                try { sub = rdr.GetString(5); }
+                                catch (InvalidCastException) { sub = default; }
+
+                                requestInfoList.Add(new Request(rdr.GetInt32(0), rdr.GetString(1), roomNo, rdr.GetBoolean(3), rdr.GetDateTime(4), sub));
                             }
                         }
                     }
@@ -228,13 +238,40 @@ namespace RoomScheduling.Controllers
                     using (SQLiteDataReader rdr = cmnd.ExecuteReader())
                     {
                         while (rdr.Read())
-                        {
-                            roomInfoList.Add(new Room(rdr.GetInt32(0), rdr.GetDateTime(1), rdr.GetInt32(2), rdr.GetInt32(3), rdr.GetString(4)));
+                        { 
+                            //datetime and subject can be null, but this causes errors when making objects
+                            //so i assign default values when that's the case
+                            DateTime dt = default;
+                            string sub = default;
+                            try { dt = rdr.GetDateTime(1);}
+                            catch(InvalidCastException){ dt = default;}
+                            try { sub = rdr.GetString(3);}
+                            catch (InvalidCastException){ sub = default;}
+                            
+                            roomInfoList.Add(new Room(rdr.GetInt32(0), dt, rdr.GetInt32(2), getCurrOcc(rdr.GetInt32(0), rdr.GetInt32(2)) ,sub));
+
                         }
                     }
                 }
             }
             return roomInfoList;
+        }
+
+        public static int getCurrOcc(int roomNo, int maxcap)
+        {
+            int curr;//to find current occupants to calculate occupancy
+            using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))
+            {
+                using (SQLiteCommand cmnd = new SQLiteCommand())
+                {
+                    conn.Open();
+                    cmnd.Connection = conn;
+                    cmnd.CommandText = "SELECT COUNT(*) FROM REQUEST WHERE [roomNo] = ($roomNo) AND [status] = 'assigned';";
+                    cmnd.Parameters.AddWithValue("$roomNo", roomNo);
+                    curr = Convert.ToInt32(cmnd.ExecuteScalar());
+                }
+            }
+            return maxcap - curr;
         }
 
         //This variable will increment logNo by one every time

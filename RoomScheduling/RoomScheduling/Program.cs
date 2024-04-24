@@ -22,6 +22,9 @@ namespace RoomScheduling.Controllers
             verifyControl.login("bryangarris@university.edu","H@rdcore99");
             verifyControl.login("admin@university.edu", "Password1!");
 
+            
+            Console.WriteLine(DBConnector.getRooms());
+
         }
 
     }
