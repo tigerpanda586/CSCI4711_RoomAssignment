@@ -26,7 +26,7 @@ namespace RoomScheduling.Controllers
                     {
                         DBConnector.SaveLogs(usn, "login");
                         List<Request> request = DBConnector.getRequests(usn);
-                        string role = acc.getRole(); // ******** .getRole() is giving an error. Needs to be fixed **********
+                        string role = acc.getRole();
                         /*
                         if(role == "admin")
                         {
@@ -105,21 +105,11 @@ namespace RoomScheduling.Controllers
 
 
             //Checking password
-            char[] blacklist = { '=', '*', '\\', ' ', ',', '.', ';', '(', ')', '\'', '\"' }; // Some significant characters in sql
-
             // Regex pattern. This requires the password to have at least 1 uppercase, 1 lower case, 1 number, 1 special character, no other characters, and 8 - 20 long
             // This is the same regex pattern from the Ppt slides, except for the added restriction:  (?!.*[^A-Za-z0-9!@#$])
             string pattern = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$])(?!.*[^A-Za-z0-9!@#$]).{8,20}$";
-
-            foreach (char b in blacklist) // pwd cannot contain blacklist. This is likely unecessary because the regex pattern blocks all characters except letters, numbers, and !@#$
-            {
-                if (pwd.Contains(b))
-                    return false;
-            }
-
             if (!Regex.IsMatch(pwd, pattern)) // If the required pattern is not found, return false
                 return false;
-
 
             return true; // return true if no problems were found above
         }
