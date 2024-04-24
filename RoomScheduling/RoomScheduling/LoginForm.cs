@@ -31,17 +31,14 @@ namespace RoomScheduling
             bool verify = verifycontrol.login(usr, pass);
             if (verify)
             {
-                this.Close();
                 string role = DBConnector.GetUser(usr).getRole();
                 if (role == "student")
                 {
-                    this.Close();
                     StudentForm studentform = new StudentForm(usr);
                     studentform.ShowDialog();
                 }
                 else
                 {
-                    this.Close();
                     AdminForm adminform = new AdminForm();
                     adminform.ShowDialog();
                 }
