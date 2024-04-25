@@ -234,7 +234,7 @@ namespace RoomScheduling.Controllers
             return requestInfoList;
         }
 
-        public static List<Request> getAllRequests()
+        public static List<Request> getPendingRequests()
         {
             List<Request> requestInfoList = new List<Request>();
             using (SQLiteConnection conn = new SQLiteConnection(@"data source=..\..\Files\RoomSchedulingSystem.db"))

@@ -35,7 +35,7 @@ namespace RoomScheduling
             string sub;
             DateTime date;
             string usn;
-            List<Request> req = DBConnector.getAllRequests();
+            List<Request> req = DBConnector.getPendingRequests();
             foreach (Request item in req)
             {
                 usn = item.getUsn();
